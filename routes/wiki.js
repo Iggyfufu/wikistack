@@ -47,35 +47,8 @@ router.get('/:slug', async (req, res, next) => {
         id: page.authorId
       }
     })
-    res.send(wikiPage(page, user.name))
-  } catch(err) { next(err) }
+    res.send(wikiPage(page, user))
+  } catch(err) { res.status(404).send(`<h1>Not Found</h1>`) }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
