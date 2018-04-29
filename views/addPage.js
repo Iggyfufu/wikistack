@@ -39,8 +39,8 @@ module.exports = () => layout(html`
       <label for="status" class="col-sm-2 control-label">Status</label>
       <div class="col-sm-10">
         <select name="status">
-          <option>Open</option>
-          <option>Closed</option>
+          <option>open</option>
+          <option>closed</option>
         </select>
       </div>
     </div>

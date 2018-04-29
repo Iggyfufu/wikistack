@@ -16,7 +16,7 @@ router.post('/', async (req, res, next) => {
   const content = req.body.content;
   const author = req.body.author
   const email = req.body.email
-  console.log(req.body);
+
   try {
     const user = await User.findOrCreate({
       where: {
@@ -51,9 +51,22 @@ router.get('/:slug', async (req, res, next) => {
         slug: req.params.slug
       }
     });
-    const user = await Page.getUser();
-    res.send(wikiPage(page, user))
+    const author = await page.getAuthor();
+    res.send(wikiPage(page, author))
   } catch(err) { res.status(404).send(`<h1>Not Found</h1>`) }
+})
+
+router.post('/:slug', async (req, res, next) => {
+  try {
+    const page = await Page.findOne({
+      where: {
+        slug: req.params.slug
+      }
+    });
+    await page.update(req.body);
+    res.redirect(`/wiki/${page.slug}`)
+  } catch (err) { next(err) }
+
 })
 
 module.exports = router;
