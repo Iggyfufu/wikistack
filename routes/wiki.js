@@ -4,7 +4,7 @@ const { Page, User } = require('../models');
 const { addPage, wikiPage , editPage} = require('../views');
 
 router.get('/', (req, res, next) => {
-  res.send('test');
+  res.redirect('/');
 });
 
 router.get('/add', (req, res, next) => {
@@ -31,6 +31,17 @@ router.post('/', async (req, res, next) => {
     res.redirect(`/wiki/${page.slug}`)
   } catch (err) { next(err) }
 });
+
+router.delete('/:slug/delete', async (req, res, next) => {
+  try {
+    // const page = await Page.findOne({
+    //   where: {
+    //     slug: req.params.slug
+    //   }
+    // })
+    res.redirect('/wiki/')
+  } catch(err) { next(err) }
+})
 
 router.get('/:slug/edit', async (req, res, next) => {
   try {
@@ -66,6 +77,7 @@ router.post('/:slug', async (req, res, next) => {
     await page.update(req.body);
     res.redirect(`/wiki/${page.slug}`)
   } catch (err) { next(err) }
+
 
 })
 
