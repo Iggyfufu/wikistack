@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Page, User } = require('../models');
-const { addPage, wikiPage } = require('../views');
+const { addPage, wikiPage , editPage} = require('../views');
 
 router.get('/', (req, res, next) => {
   res.send('test');
@@ -16,10 +16,7 @@ router.post('/', async (req, res, next) => {
   const content = req.body.content;
   const author = req.body.author
   const email = req.body.email
-
-
-
-
+  console.log(req.body);
   try {
     const user = await User.findOrCreate({
       where: {
@@ -35,6 +32,18 @@ router.post('/', async (req, res, next) => {
   } catch (err) { next(err) }
 });
 
+router.get('/:slug/edit', async (req, res, next) => {
+  try {
+    const page = await Page.findOne({
+      where: {
+        slug: req.params.slug
+      }
+    });
+    const author = await page.getAuthor();
+    res.send(editPage(page, author))
+  } catch (err) { next(err) }
+})
+
 router.get('/:slug', async (req, res, next) => {
   try {
     const page = await Page.findOne({
@@ -42,11 +51,7 @@ router.get('/:slug', async (req, res, next) => {
         slug: req.params.slug
       }
     });
-    const user = await User.findOne({
-      where: {
-        id: page.authorId
-      }
-    })
+    const user = await Page.getUser();
     res.send(wikiPage(page, user))
   } catch(err) { res.status(404).send(`<h1>Not Found</h1>`) }
 })

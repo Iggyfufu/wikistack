@@ -6,9 +6,19 @@ module.exports = (page, author) => layout(html`
   <hr>
   <form method="POST" action="/wiki/${page.slug}">
 
-    <div>PLACEHOLDER FOR AUTHOR NAME FIELD</div>
-    
-    <div>PLACEHOLDER FOR AUTHOR EMAIL FIELD</div>
+    <div class="form-group">
+      <label for="author" class="col-sm-2 control-label">Author Name</label>
+      <div class="col-sm-10">
+        <p>${author.name}</p>
+      </div>
+    </div>
+
+    <div>
+      <label for="email" class="col-sm-2 control-label">Author Email</label>
+      <div class="col-sm-10">
+        <p>${author.email}</p>
+      </div>
+    </div>
 
     <div class="form-group">
       <label for="title" class="col-sm-2 control-label">Page Title</label>
@@ -17,7 +27,14 @@ module.exports = (page, author) => layout(html`
       </div>
     </div>
 
-    <div>PLACEHOLDER FOR PAGE CONTENT TEXTAREA FIELD</div>
+    <div>
+      <label for="content" class="col-sm-2 control-label">Content</label>
+      <div class="col-sm-10">
+        <textarea id="content" name="content" rows="10" class="form-control">
+          ${page.content}
+        </textarea>
+      </div>
+    </div>
 
     <div class="form-group">
       <label for="content" class="col-sm-2 control-label">Status</label>
